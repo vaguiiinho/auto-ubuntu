@@ -1,23 +1,14 @@
 ---
-- name: install libs
+- name: Instalar Zsh e Git (caso não estejam instalados)
   apt:
     name:
-      - curl
       - zsh
       - git
+    state: present
 
 - name: Baixar o script de instalação do Oh My Zsh
-  command: "curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -o /tmp/install_ohmyzsh.sh"
-  args:
-    creates: /tmp/install_ohmyzsh.sh
-
-- name: Executar o script de instalação do Oh My Zsh
-  command: "sh /tmp/install_ohmyzsh.sh"
-  args:
-    creates: "{{ ansible_env.HOME }}/.oh-my-zsh"
+  shell: 'sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+'
 
 - name: Definir Zsh como shell padrão
-  command: "chsh -s $(which zsh)"
-  args:
-    creates: "{{ ansible_env.HOME }}/.zshrc"
-  become_user: "{{ ansible_env.USER }}"
+  command: "chsh -s /bin/zsh {{ ansible_user }}"
