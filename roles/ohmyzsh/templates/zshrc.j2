@@ -1,0 +1,18 @@
+export ZSH="{{ ansible_user_dir }}/.oh-my-zsh"
+source "$ZSH/oh-my-zsh.sh"
+
+
+
+export ZSH="{{ ansible_user_dir }}/.oh-my-zsh"
+source "$ZSH/oh-my-zsh.sh"
+
+ZSH_THEME="spaceship"
+SPACESHIP_PROMPT_ORDER=(
+    dir
+    git
+    line_sep
+    char
+)
+SPACESHIP_DIR_TRUNC=0
+SPACESHIP_DIR_TRUNC_REPO=false
+plugins=(git dnf zsh-syntax-highlighting zsh-autosuggestions)
