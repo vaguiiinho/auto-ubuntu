@@ -7,6 +7,7 @@
 
 - name: Baixar o script de instalação do Oh My Zsh
   shell: 'sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"'
+  become_user: "{{ ansible_user }}"
 
 - name: Definir Zsh como shell padrão
   command: "chsh -s /bin/zsh {{ ansible_user }}"
@@ -15,6 +16,7 @@
   git:
     repo: https://github.com/denysdovhan/spaceship-prompt.git
     dest: "{{ ansible_user_dir }}/.oh-my-zsh/custom/themes/spaceship-prompt"
+  become_user: "{{ ansible_user }}"
 
 - name: Criar link simbólico para o tema do Spaceship Prompt
   command: ln -s "{{ ansible_user_dir }}/.oh-my-zsh/custom/themes/spaceship-prompt/spaceship.zsh-theme" "{{ ansible_user_dir }}/.oh-my-zsh/custom/themes/spaceship.zsh-theme"
@@ -24,16 +26,16 @@
   git:
     repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
     dest: "{{ ansible_user_dir }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
-  when: ansible_user_dir is defined and ansible_user_dir is not none
+  become_user: "{{ ansible_user }}"
 
 - name: Clonar o repositório do zsh-autosuggestions
   git:
     repo: https://github.com/zsh-users/zsh-autosuggestions
     dest: "{{ ansible_user_dir }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
-  when: ansible_user_dir is defined and ansible_user_dir is not none
+  become_user: "{{ ansible_user }}"
 
 - name: Criar ou modificar o arquivo ~/.zshrc
   template:
     src: templates/zshrc.j2
     dest: "{{ ansible_user_dir }}/.zshrc"
-  when: ansible_user_dir is defined and ansible_user_dir is not none
+  become_user: "{{ ansible_user }}"
